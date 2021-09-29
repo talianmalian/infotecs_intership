@@ -5,11 +5,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Infotecs test task</title>
 </head>
 
 <body>
 
+    <div class="container">
+        <div class="displayBtns">
+            <button class="button" onclick="hide('firstName')">Hide name</button>
+            <button class="button" onclick="hide('lastName')">Hide lastName</button>
+            <button class="button" onclick="hide('about')">Hide about</button>
+            <button class="button" onclick="hide('eyeColor')">Hide eye color</button>
+        </div>
+        <div class="sortBtns">
+            <button class="button" onclick="sortData('firstName')">Sort name</button>
+            <button class="button" onclick="sortData('lastName')">Sort lastName</button>
+            <button class="button" onclick="sortData('about')">Sort about</button>
+            <button class="button" onclick="sortData('eyeColor')">Sort eye color</button>
+        </div>
+
+        <table cellspacing="0">
+            <tr>
+                <th data-key='firstName'>Name</th>
+                <th data-key='lastName'>Last Name</th>
+                <th data-key='about'>About</th>
+                <th data-key='eyeColor'>Eye color</th>
+            </tr>
+        </table>
+
+        <div class="controlBtns">
+            <button class="button" onclick="previousPage()">Previous</button>
+            <span id="currentPage">1</span>
+            <button class="button" onclick="nextPage()">Next</button>
+        </div>
+
+        <div class="edit">
+            <textarea class="edit_textarea" cols="30" rows="10">Value will appear here! Edit and click the button!</textarea>
+            <button class="button" onclick="changeValue()">Change value</button>
+        </div>
+
+
+
+    </div>
+
+
+
+
 </body>
+
+<script src="script.js"></script>
 
 </html>
