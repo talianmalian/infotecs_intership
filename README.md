@@ -1,7 +1,4 @@
 # infotecs_intership
-Test task for Infotecs intership 09/2021
-
-
 Тестовое задание на стажировку Infotecs.
 
 Основные цели: 
