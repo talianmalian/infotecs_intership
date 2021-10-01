@@ -1,3 +1,4 @@
+// https://github.com/talianmalian/infotecs_intership
 // ссылка на JSON с исходными данными 
 const requetURL = 'https://raw.githubusercontent.com/talianmalian/infotecs_intership/master/data.json';
 // Количество строк выводимых в таблицу на одной странице
