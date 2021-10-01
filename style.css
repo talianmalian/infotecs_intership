@@ -13,14 +13,13 @@ table {
 tr,
 td {
     border: 1px solid black;
-    height: 40px;
+    text-align: center;
 }
 
+
+/* Стили для вывода текста в две строки в столбце about */
+
 [data-key=about] {
-    /* overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 20px;
-    max-height: 40px; */
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -35,13 +34,25 @@ td {
 .edit {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
-.table {
-    text-align: center;
+button {
+    margin: 10px;
+    width: 90px;
+    height: 40px;
 }
 
+.displayBtns,
+.sortBtns {
+    display: flex;
+    flex-direction: row;
+}
 
-/* #pupil {
-    fill: red;
-} */
+.controlBtns button {
+    height: 30px;
+}
+
+textarea {
+    resize: none;
+}

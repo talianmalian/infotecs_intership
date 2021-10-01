@@ -1,12 +1,17 @@
+// ссылка на JSON с исходными данными 
 const requetURL = 'https://raw.githubusercontent.com/talianmalian/infotecs_intership/master/data.json';
+// Количество строк выводимых в таблицу на одной странице
 const ROWS_ARE_SHOWN = 10;
+// Переменная для хранения номера страницы 
 let page = 0;
+// Массив для входных данных
 let d = [];
+// Объект для хранения данных о изменившейся ячейке, number - порядковый номер объекта в массиве, key - поле для изменения
 let objEdit = {
-    number: 0,
-    key: ''
-}
-
+        number: 0,
+        key: ''
+    }
+    // html-код для добавления SVG изображения глаза 
 const eyeSvg = `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 30 30;" xml:space="preserve" width="30" height="30"> <g>
 <g>
     <path d="M508.177,245.995C503.607,240.897,393.682,121,256,121S8.394,240.897,3.823,245.995c-5.098,5.698-5.098,14.312,0,20.01
@@ -23,6 +28,7 @@ const eyeSvg = `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg
 
 </svg>`;
 
+// Получение данных и создание таблицы
 fetch(requetURL)
     .then(response => response.json())
     .then(data => {
@@ -31,12 +37,13 @@ fetch(requetURL)
         updateTable();
     });
 
+
 function createTable(data, numberRows) {
 
     const table = document.querySelector('table');
-
+    // Добавление обработчика события "click" для таблицы. При нажатии на ячейку таблицы, данные из нее копируются в поле для редактирования
     table.onclick = function(event) {
-
+        //Получаем node в приделах таблицы, на которое было произведено нажатие
         let target = event.target;
 
         if (target.nodeName == 'TD') {
@@ -45,25 +52,32 @@ function createTable(data, numberRows) {
             objEdit.number = page * ROWS_ARE_SHOWN + Number(target.parentElement.getAttribute('id'));
             objEdit.key = target.getAttribute('data-key');
             textarea.value = d[objEdit.number][objEdit.key];
-            // console.log(Number(target.parentElement.getAttribute('id')))
+
         }
 
     };
-
-    //createTr(data[0], table, 'th');
+    // Создание строк таблицы 
     for (let i = 0; i < numberRows; i++) {
         createTr(data[0], table, 'td', i);
     }
 
 }
 
-
+//Функция для создания строк, принимает: 
+// obj - объект по полям которого будут создаваться столбцы, 
+// table -  таблица в которую будет добавлена строка,
+// type - td|th,
+// index - номер строки
 function createTr(obj, table, type, index) {
     const tr = document.createElement('tr');
     tr.setAttribute('id', index);
     tr.classList.add(`table_tr_${type}`);
+
+    // Создание ячеек строки
     for (let i = 0; i < Object.keys(obj).length; i++) {
+
         const item = document.createElement(type);
+        // Добавление атбирута data-key для ячеек строки соответственно полям выводимого объекта 
         item.setAttribute('data-key', `${Object.keys(obj)[i]}`);
 
         if (Object.keys(obj)[i] == "eyeColor") {
@@ -73,7 +87,7 @@ function createTr(obj, table, type, index) {
     }
     table.appendChild(tr)
 }
-
+// Функция для обработки входного массива данных. Сохраняем только необходимые поля объектов.
 function saveData(response) {
     return response.map(item => ({
         firstName: item.name.firstName,
@@ -82,14 +96,13 @@ function saveData(response) {
         eyeColor: item.eyeColor
     }))
 }
-
+// Функции для изменения страницы. Производится изменение глобальной переменной page и вызывается фукнкция updateTable дляобновления данных таблицы
 function nextPage() {
     if (page < 4) {
         page++;
         document.getElementById('currentPage').innerHTML = page + 1;
         updateTable()
     }
-
 }
 
 function previousPage() {
@@ -99,29 +112,32 @@ function previousPage() {
         updateTable()
     }
 }
-
+// Функция для обновления данных в ячейках таблицы
 function updateTable() {
-
+    // Создаем массив данных для вывода на конкретной странице
     let data_to_show = d.slice(ROWS_ARE_SHOWN * page, ROWS_ARE_SHOWN * page + ROWS_ARE_SHOWN);
+    // Получаем все строки и проходимся по каждой ячеке в строке
     let trs = document.querySelectorAll('.table_tr_td');
     trs.forEach((tr, i) => {
         tr.childNodes.forEach(td => {
+
             if (td.getAttribute('data-key') == 'eyeColor') {
+                // Изменяем цвет зрачка в зависимости от данных в массиве объектов, по id находим необходимый path в svg и меняем цвет
                 let svg = td.firstChild.getElementById('pupil');
                 svg.setAttribute('fill', data_to_show[i][td.getAttribute('data-key')]);
             } else {
+
                 td.innerHTML = data_to_show[i][td.getAttribute('data-key')];
             }
-
 
         })
     })
 }
-
+// Функция для скрытия столбцов
 function hide(key) {
     document.querySelectorAll(`[data-key=${key}]`).forEach(item => item.classList.toggle('hide'));
 }
-
+// Функция для соктировки данных по столбцам
 function sortData(param) {
 
     d.sort((prev, next) => {
@@ -130,7 +146,7 @@ function sortData(param) {
     });
     updateTable();
 }
-
+// Функция обновления измененных данных 
 function changeValue() {
     d[objEdit.number][objEdit.key] = document.querySelector('.edit_textarea').value;
     updateTable();
