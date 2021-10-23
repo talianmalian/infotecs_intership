@@ -1,6 +1,8 @@
 # infotecs_intership
 Тестовое задание на стажировку Infotecs.
 
+[Посмотреть на GitHub Pages](https://talianmalian.github.io/infotecs_intership/)
+
 Основные цели: 
 -	На основе имеющегося массива данных, создать таблицу шириной 50% от экрана;
 + Колонки в таблице: 
